@@ -9,7 +9,7 @@ class CommonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget menu = ListView(
+    Widget navigationMenu = ListView(
       padding: EdgeInsets.zero,
       children: <ListTile>[
         ListTile(
@@ -25,46 +25,44 @@ class CommonView extends StatelessWidget {
       ],
     );
 
+    FloatingActionButton button = FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+        tooltip: "Add new event");
+
     final screenWidth = MediaQuery.of(context).size.width;
     const breakpoint = 600;
     const double menuWidth = 240;
 
-    Widget body;
-    Widget? drawer;
-
     if (screenWidth >= breakpoint) {
-      body = Row(
-        children: [
-          SizedBox(
-            width: menuWidth,
-            child: menu,
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(title),
           ),
-          Container(width: 0.5, color: Colors.black),
-          Expanded(child: content),
-        ],
-      );
-      drawer = null;
-    } else {
-      body = content;
-      drawer = Drawer(
-          child: Scaffold(
-              appBar: AppBar(
-                title: const Text("Menu"),
+          body: Row(
+            children: [
+              SizedBox(
+                width: menuWidth,
+                child: navigationMenu,
               ),
-              body: menu));
+              Container(width: 0.5, color: Colors.black),
+              Expanded(child: content),
+            ],
+          ),
+          floatingActionButton: button);
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+          ),
+          body: content,
+          drawer: Drawer(
+              child: Scaffold(
+                  appBar: AppBar(
+                    title: const Text("Menu"),
+                  ),
+                  body: navigationMenu)),
+          floatingActionButton: button);
     }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: body,
-      drawer: drawer,
-
-      // floatingActionButton: FloatingActionButton(
-      //     onPressed: addNewEventDialogMethod(context),
-      //     child: Icon(Icons.add),
-      //     tooltip: "Add new event")
-    );
   }
 }
