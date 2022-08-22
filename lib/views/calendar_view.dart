@@ -1,25 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:coin_2/widgets/commom_view.dart';
 
-class MonthCalendarView extends StatefulWidget {
-  const MonthCalendarView({Key? key}) : super(key: key);
+class MonthCalendarView extends CommonView {
+  MonthCalendarView({Key? key})
+      : super(key: key, title: "Calendar", content: buildCalendar());
 
-  @override
-  State<StatefulWidget> createState() => _MonthCalendarViewState();
-}
-
-class _MonthCalendarViewState extends State<MonthCalendarView> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SfCalendar(
-        view: CalendarView.month,
-      ),
-      // drawer: buildDrawer(context),
-      // floatingActionButton: FloatingActionButton(
-      //     onPressed: addNewEventDialogMethod(context),
-      //     child: Icon(Icons.add),
-      //     tooltip: "Add new event")
+  static SfCalendar buildCalendar() {
+    return SfCalendar(
+      view: CalendarView.month,
     );
   }
 }

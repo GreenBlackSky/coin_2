@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'views/calendar_view.dart';
+import 'views/graph_view.dart';
 
 void main() => runApp(const App());
 
@@ -15,7 +16,9 @@ class App extends StatelessWidget {
       routes: {
         '/login': (context) => MonthCalendarView(),
         '/signup': (context) => MonthCalendarView(),
-        '/calendar': (context) => const MonthCalendarView(),
+        '/calendar': (context) => MonthCalendarView(),
+        '/events_list': (context) => MonthCalendarView(),
+        '/graph': (context) => GraphView(),
       },
     );
   }
