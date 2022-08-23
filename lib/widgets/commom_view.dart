@@ -1,4 +1,6 @@
+import 'package:coin_2/widgets/navigation_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:coin_2/widgets/add_event_button.dart';
 
 class CommonView extends StatelessWidget {
   final Widget content;
@@ -9,26 +11,9 @@ class CommonView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget navigationMenu = ListView(
-      padding: EdgeInsets.zero,
-      children: <ListTile>[
-        ListTile(
-            title: const Text("Calendar"),
-            onTap: () {
-              Navigator.pushNamed(context, '/calendar');
-            }),
-        ListTile(
-            title: const Text("Chart"),
-            onTap: () {
-              Navigator.pushNamed(context, '/graph');
-            })
-      ],
-    );
+    Widget navigationMenu = buildNavigationMenu(context);
 
-    FloatingActionButton button = FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-        tooltip: "Add new event");
+    Widget button = buildAddEventButton(context);
 
     final screenWidth = MediaQuery.of(context).size.width;
     const breakpoint = 600;
