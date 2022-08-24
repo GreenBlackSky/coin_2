@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:coin_2/storage.dart';
 
+String? _validateName(String? value) {
+  if (value == null) {
+    return "Diff can not be empty.";
+  }
+  return null;
+}
+
 String? _validateNumber(String? value) {
   if (value == null) {
     return "Diff can not be empty.";
@@ -16,6 +23,7 @@ String? _validateNumber(String? value) {
 
 Widget buildAddEventButton(BuildContext context) {
   final diffController = TextEditingController();
+  final nameController = TextEditingController();
   final dateController = DateRangePickerController();
 
   return FloatingActionButton(
@@ -34,14 +42,20 @@ Widget buildAddEventButton(BuildContext context) {
                     controller: dateController,
                   ),
                   TextFormField(
+                    controller: nameController,
+                    validator: _validateName,
+                    decoration: const InputDecoration(hintText: "description"),
+                  ),
+                  TextFormField(
                     controller: diffController,
                     validator: _validateNumber,
+                    decoration: const InputDecoration(hintText: "0"),
                   ),
                   TextButton(
                     child: const Text("Create event"),
                     onPressed: () {
                       storage.events.add(Event(dateController.selectedDate!,
-                          int.parse(diffController.text)));
+                          nameController.text, int.parse(diffController.text)));
                       Navigator.of(context).pop();
                     },
                   ),

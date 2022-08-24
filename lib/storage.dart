@@ -1,8 +1,9 @@
 class Event {
   final DateTime eventTime;
   final int diff;
+  final String name;
 
-  Event(this.eventTime, this.diff);
+  Event(this.eventTime, this.name, this.diff);
 }
 
 class DataStorage {

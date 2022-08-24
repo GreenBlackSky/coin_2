@@ -12,7 +12,6 @@ class CommonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget navigationMenu = buildNavigationMenu(context);
-
     Widget button = buildAddEventButton(context);
 
     final screenWidth = MediaQuery.of(context).size.width;
