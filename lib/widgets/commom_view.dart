@@ -1,6 +1,6 @@
 import 'package:coin_2/widgets/navigation_menu.dart';
 import 'package:flutter/material.dart';
-import 'package:coin_2/widgets/add_event_button.dart';
+import 'package:coin_2/widgets/create_event_dialog.dart';
 
 class CommonView extends StatelessWidget {
   final Widget content;
@@ -12,7 +12,12 @@ class CommonView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget navigationMenu = buildNavigationMenu(context);
-    Widget button = buildAddEventButton(context);
+    Widget button = FloatingActionButton(
+      child: const Icon(Icons.add),
+      onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context) => CreateEventDialog(context)),
+    );
 
     final screenWidth = MediaQuery.of(context).size.width;
     const breakpoint = 600;
