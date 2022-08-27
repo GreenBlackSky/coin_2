@@ -14,8 +14,8 @@ class CommonView extends StatelessWidget {
     Widget navigationMenu = buildNavigationMenu(context);
     Widget button = FloatingActionButton(
       child: const Icon(Icons.add),
-      onPressed: () =>
-          showDialog(context: context, builder: CreateEventDialog().build),
+      onPressed: () => showDialog(
+          context: context, builder: ((context) => const CreateEventDialog())),
     );
 
     final screenWidth = MediaQuery.of(context).size.width;

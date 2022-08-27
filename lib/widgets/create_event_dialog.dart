@@ -1,64 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:coin_2/storage.dart';
 
-String? _validateName(String? value) {
-  if (value == null) {
-    return "Diff can not be empty.";
-  }
-  return null;
+class CreateEventDialog extends StatefulWidget {
+  const CreateEventDialog({Key? key}) : super(key: key);
+
+  @override
+  State<CreateEventDialog> createState() => _CreateEventDialogState();
 }
 
-String? _validateNumber(String? value) {
-  if (value == null) {
-    return "Diff can not be empty.";
-  }
-  try {
-    int.parse(value);
-  } catch (e) {
-    return "Value must be integer";
-  }
-  return null;
-}
+class _CreateEventDialogState extends State<CreateEventDialog> {
+  final diffController = TextEditingController();
+  final descriptionController = TextEditingController();
+  var _choosenDate = DateTime.now();
+  final _formKey = GlobalKey<FormState>();
 
-class CreateEventDialog {
+  String? _validateDescription(String? value) {
+    if (value == null || value == "") {
+      return "Descritption can not be empty.";
+    }
+    return null;
+  }
+
+  String? _validateNumber(String? value) {
+    if (value == null || value == "") {
+      return "Value can not be empty.";
+    }
+    try {
+      int.parse(value);
+    } catch (e) {
+      return "Value must be integer";
+    }
+    return null;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final diffController = TextEditingController();
-    final nameController = TextEditingController();
-    final dateController = DateRangePickerController();
-    final _formKey = GlobalKey<FormState>();
     return AlertDialog(
         title: AppBar(title: const Text("Create event")),
         content: Scaffold(
-          key: _formKey,
-          body: Column(children: [
-            SfDateRangePicker(
-              view: DateRangePickerView.month,
-              selectionMode: DateRangePickerSelectionMode.single,
-              allowViewNavigation: false,
-              minDate: storage.periodStart,
-              maxDate: storage.periodEnd,
-              controller: dateController,
-            ),
-            TextFormField(
-              controller: nameController,
-              validator: _validateName,
-              decoration: const InputDecoration(hintText: "description"),
-            ),
-            TextFormField(
-              controller: diffController,
-              validator: _validateNumber,
-              decoration: const InputDecoration(hintText: "0"),
-            ),
-            TextButton(
-              child: const Text("Create event"),
-              onPressed: () {
-                storage.events.add(Event(dateController.selectedDate!,
-                    nameController.text, int.parse(diffController.text)));
-                Navigator.of(context).pop();
-              },
-            ),
-          ]),
+          body: Form(
+            key: _formKey,
+            child: Column(children: [
+              CalendarDatePicker(
+                initialDate: _choosenDate,
+                firstDate: storage.periodStart,
+                lastDate: storage.periodEnd,
+                onDateChanged: (value) {
+                  setState(() {
+                    _choosenDate = value;
+                  });
+                },
+              ),
+              TextFormField(
+                controller: descriptionController,
+                validator: _validateDescription,
+                decoration: const InputDecoration(hintText: "description"),
+              ),
+              TextFormField(
+                controller: diffController,
+                validator: _validateNumber,
+                decoration: const InputDecoration(hintText: "0"),
+              ),
+              TextButton(
+                child: const Text("Create event"),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    storage.addEvent(Event(
+                        _choosenDate,
+                        descriptionController.text,
+                        int.parse(diffController.text)));
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            ]),
+          ),
         ));
   }
 }

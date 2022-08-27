@@ -24,6 +24,14 @@ class DataStorage {
         : DateTime(now.year + 1, 1, 0);
     events.clear();
   }
+
+  void addEvent(Event event) {
+    int i = 0;
+    while (i < events.length && events[i].eventTime.day < event.eventTime.day) {
+      i++;
+    }
+    events.insert(i, event);
+  }
 }
 
 var storage = DataStorage();
