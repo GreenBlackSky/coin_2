@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:coin_2/widgets/create_event_dialog.dart';
 
 class CommonView extends StatelessWidget {
-  final Widget content;
+  final builder;
   final String title;
 
-  const CommonView({Key? key, required this.content, required this.title})
+  const CommonView({Key? key, required this.builder, required this.title})
       : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class CommonView extends StatelessWidget {
                 child: navigationMenu,
               ),
               Container(width: 0.5, color: Colors.black),
-              Expanded(child: content),
+              Expanded(child: builder(context)),
             ],
           ),
           floatingActionButton: button);
@@ -43,7 +43,7 @@ class CommonView extends StatelessWidget {
           appBar: AppBar(
             title: Text(title),
           ),
-          body: content,
+          body: builder(context),
           drawer: Drawer(
               child: Scaffold(
                   appBar: AppBar(

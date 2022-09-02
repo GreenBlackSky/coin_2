@@ -1,9 +1,22 @@
 class Event {
-  final DateTime eventTime;
+  final DateTime eventDate;
   final int diff;
-  final String name;
+  final String description;
+  late final int _id;
 
-  Event(this.eventTime, this.name, this.diff);
+  static int totalId = 0;
+
+  Event(this.eventDate, this.description, this.diff) {
+    _id = totalId;
+    totalId++;
+  }
+
+  get id => _id;
+
+  @override
+  String toString() {
+    return "${eventDate.toString()}: $description $diff";
+  }
 }
 
 class DataStorage {
@@ -25,12 +38,23 @@ class DataStorage {
     events.clear();
   }
 
-  void addEvent(Event event) {
+  void addEvent(DateTime date, String description, int diff) {
+    var event = Event(date, description, diff);
     int i = 0;
-    while (i < events.length && events[i].eventTime.day < event.eventTime.day) {
+    while (i < events.length && events[i].eventDate.day < event.eventDate.day) {
       i++;
     }
     events.insert(i, event);
+  }
+
+  void removeEvent(int id) {
+    int i = 0;
+    for (int i = 0; i < this.events.length; i++) {
+      if (events[i].id == id) {
+        events.removeAt(i);
+        break;
+      }
+    }
   }
 }
 

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:coin_2/storage.dart';
 
-class CreateEventDialog extends StatefulWidget {
-  const CreateEventDialog({Key? key}) : super(key: key);
+class EditEventDialog extends StatefulWidget {
+  final Event event;
+
+  const EditEventDialog(this.event, {Key? key}) : super(key: key);
 
   @override
-  State<CreateEventDialog> createState() => _CreateEventDialogState();
+  State<EditEventDialog> createState() => _EditEventDialogState();
 }
 
-class _CreateEventDialogState extends State<CreateEventDialog> {
-  final diffController = TextEditingController();
-  final descriptionController = TextEditingController();
+class _EditEventDialogState extends State<EditEventDialog> {
+  final _diffController = TextEditingController();
+  final _descriptionController = TextEditingController();
   var _choosenDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
 
@@ -35,8 +37,11 @@ class _CreateEventDialogState extends State<CreateEventDialog> {
 
   @override
   Widget build(BuildContext context) {
+    _choosenDate = widget.event.eventDate;
+    _diffController.text = widget.event.diff.toString();
+    _descriptionController.text = widget.event.description;
     return AlertDialog(
-        title: AppBar(title: const Text("Create event")),
+        title: AppBar(title: const Text("Edit event")),
         content: Scaffold(
           body: Form(
             key: _formKey,
@@ -52,21 +57,22 @@ class _CreateEventDialogState extends State<CreateEventDialog> {
                 },
               ),
               TextFormField(
-                controller: descriptionController,
+                controller: _descriptionController,
                 validator: _validateDescription,
                 decoration: const InputDecoration(hintText: "description"),
               ),
               TextFormField(
-                controller: diffController,
+                controller: _diffController,
                 validator: _validateNumber,
                 decoration: const InputDecoration(hintText: "0"),
               ),
               TextButton(
-                child: const Text("Create"),
+                child: const Text("Edit"),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    storage.addEvent(_choosenDate, descriptionController.text,
-                        int.parse(diffController.text));
+                    storage.removeEvent(widget.event.id);
+                    storage.addEvent(_choosenDate, _descriptionController.text,
+                        int.parse(_diffController.text));
                     Navigator.of(context).pop();
                   }
                 },

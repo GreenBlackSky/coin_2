@@ -11,8 +11,8 @@ class ChartData {
 }
 
 class GraphView extends CommonView {
-  GraphView({Key? key})
-      : super(key: key, title: "Chart", content: buildGraph());
+  const GraphView({Key? key})
+      : super(key: key, title: "Chart", builder: buildGraph);
 
   static bool atTheSameDay(DateTime eventTime, DateTime dayStart) {
     DateTime dayEnd = dayStart.add(const Duration(days: 1));
@@ -21,7 +21,7 @@ class GraphView extends CommonView {
         eventTime.isBefore(dayEnd);
   }
 
-  static Widget buildGraph() {
+  static Widget buildGraph(BuildContext context) {
     int balance = storage.periodStartBalance;
     List<ChartData> chartData = [];
     int eventIDX = 0;
@@ -29,7 +29,7 @@ class GraphView extends CommonView {
         indexDay.month == storage.periodStart.month;
         indexDay = indexDay.add(const Duration(days: 1))) {
       while (eventIDX < storage.events.length &&
-          atTheSameDay(storage.events[eventIDX].eventTime, indexDay)) {
+          atTheSameDay(storage.events[eventIDX].eventDate, indexDay)) {
         balance += storage.events[eventIDX].diff;
         eventIDX += 1;
       }
