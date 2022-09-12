@@ -66,8 +66,10 @@ class _EditEventDialogState extends State<EditEventDialog> {
                 validator: _validateNumber,
                 decoration: const InputDecoration(hintText: "0"),
               ),
-              TextButton(
-                child: const Text("Edit"),
+              const SizedBox(height: 8.0),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.edit_outlined),
+                label: const Text("Edit event"),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     storage.removeEvent(widget.event.id);
@@ -75,6 +77,17 @@ class _EditEventDialogState extends State<EditEventDialog> {
                         int.parse(_diffController.text));
                     Navigator.of(context).pop();
                   }
+                },
+              ),
+              const SizedBox(height: 8.0),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.delete_forever_outlined),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red)),
+                label: const Text("Delete event"),
+                onPressed: () {
+                  storage.removeEvent(widget.event.id);
+                  Navigator.of(context).pop();
                 },
               ),
             ]),

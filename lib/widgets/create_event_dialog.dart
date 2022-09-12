@@ -61,7 +61,8 @@ class _CreateEventDialogState extends State<CreateEventDialog> {
                 validator: _validateNumber,
                 decoration: const InputDecoration(hintText: "0"),
               ),
-              TextButton(
+              const SizedBox(height: 8.0),
+              ElevatedButton(
                 child: const Text("Create"),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
